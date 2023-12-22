@@ -1,5 +1,9 @@
 package com.unittest.codecoverage.service;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import com.unittest.codecoverage.models.StreetDirectionFlow;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -48,6 +52,26 @@ public class TrafficBehaviorServiceTest {
 			.isInstanceOf(BehaviorException.class)
 			.hasMessage("You should be more careful");
 		
+	}
+
+	@Test
+	public void testFootPassengerCrossTheCrossWalk() {
+
+		Traffic currentTrafic = new Traffic();
+		currentTrafic.setIntenseCarTraffic(true);
+		currentTrafic.setStreetDirectionFlow(StreetDirectionFlow.ONE_WAY);
+
+		Footpassenger currentFootpassengerBehavior = new Footpassenger();
+		currentFootpassengerBehavior.setCrossedTheCrosswalk(true);
+		currentFootpassengerBehavior.setCrossedTrafficLigth(TrafficLigth.GREEN);
+		currentFootpassengerBehavior.setLookedToTheLeft(false);
+		currentFootpassengerBehavior.setLookedToTheRight(false);
+
+		Assertions.assertThatThrownBy(() -> trafficBehaviorService.footpassengerCrossTheStreet(currentTrafic, currentFootpassengerBehavior))
+			.isInstanceOf(BehaviorException.class)
+			.hasMessage("You should be more careful");
+        assertTrue(currentFootpassengerBehavior.crossedTheCrosswalk());
+		assertEquals(StreetDirectionFlow.ONE_WAY, currentTrafic.getStreetDirectionFlow());
 	}
 
 }
