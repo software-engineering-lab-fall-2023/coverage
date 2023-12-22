@@ -3,7 +3,9 @@ package com.unittest.codecoverage.repositories;
 import java.util.Objects;
 
 import com.unittest.codecoverage.models.Person;
+import org.springframework.stereotype.Service;
 
+@Service
 public class PersonRepository {
 	
 	public Person insert(Person person) {
